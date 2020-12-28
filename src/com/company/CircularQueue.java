@@ -2,16 +2,16 @@ package com.company;
 
 import java.util.NoSuchElementException;
 
-public class CircularQueue {
+public class CircularQueue<T> {
     private int front, rear;
-    private int[] nums;
+    private Object[] nums;
 
     public CircularQueue() {
         this.front = this.rear = -1;
-        this.nums = new int[4];
+        this.nums = new Object[4];
     }
 
-    public  void enqueue(int data) {
+    public  void enqueue(T data) {
         if(isFull()){
             resize();
         } else if (isEmpty()) {
@@ -21,24 +21,24 @@ public class CircularQueue {
         nums[rear] = data;
     }
 
-    public  int dequeue() {
+    public  T dequeue() {
         if(isEmpty()) {
             throw new NoSuchElementException();
         }
-        int temp = nums[front];
+        T temp = (T)nums[front];
         if(front == rear){
             front = rear = -1;
         } else {
             front = (front + 1) % nums.length;
         }
-        return  temp;
+        return temp;
     }
 
-    public int peek() {
+    public T peek() {
         if(isEmpty()){
             throw new NoSuchElementException();
         }
-        return  nums[front];
+        return  (T)nums[front];
     }
 
     public boolean isEmpty() {
@@ -50,7 +50,7 @@ public class CircularQueue {
     }
 
     private void resize() {
-        int[] tempArr = new int[nums.length * 2];
+        Object[] tempArr = new Object[nums.length * 2];
         int i =0;
         int j = front;
 
