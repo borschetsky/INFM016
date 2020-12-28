@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.NoSuchElementException;
 
-public class CircularQueue<T> {
+public class CircularQueue<T extends Comparable>{
     private int front, rear;
     private Object[] nums;
 
@@ -66,5 +66,24 @@ public class CircularQueue<T> {
 
     public int size () {
         return  nums.length;
+    }
+
+    public void sort() {
+        for (int i = front + 1; i <= rear; i++){
+            T key = (T)nums[i];
+            int j = i -1;
+            while (j >= front && key.compareTo(nums[j]) == -1) {
+                nums[j + 1] = nums[j];
+                j--;
+            }
+            nums[j +1] = key;
+
+        }
+    }
+
+    public void print() {
+        for (int i = front; i <= rear; i++) {
+            System.out.println(nums[i]);
+        }
     }
 }
