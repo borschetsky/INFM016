@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 public class CircularQueue<T extends Comparable>{
     private int front, rear;
     private Object[] nums;
+    public int length;
 
     public CircularQueue() {
         this.front = this.rear = -1;
@@ -19,6 +20,7 @@ public class CircularQueue<T extends Comparable>{
         }
         rear = (rear + 1) % nums.length;
         nums[rear] = data;
+        length++;
     }
 
     public  T dequeue() {
@@ -31,6 +33,7 @@ public class CircularQueue<T extends Comparable>{
         } else {
             front = (front + 1) % nums.length;
         }
+        length--;
         return temp;
     }
 
@@ -68,17 +71,33 @@ public class CircularQueue<T extends Comparable>{
         return  nums.length;
     }
 
-    public void sort() {
-        for (int i = front + 1; i <= rear; i++){
-            T key = (T)nums[i];
-            int j = i -1;
-            while (j >= front && key.compareTo(nums[j]) == -1) {
-                nums[j + 1] = nums[j];
-                j--;
-            }
-            nums[j +1] = key;
+    public LinkedList generateLinkedList(){
+        LinkedList list = new LinkedList();
 
+        while (!isEmpty()){
+            list.add(this.dequeue());
         }
+        return  list;
+    }
+    public void sort() {
+
+        //first cycle
+        int i = front;
+        do{
+            //second
+            int j = ( i + 1) % length;
+            do {
+                T num = (T)nums[j];
+                if(num.compareTo(nums[(j - 1) % length]) == -1){
+                    T temp = (T)nums[(j - 1) % length];
+                    nums[(j - 1) % length] = (T)nums[j];
+                    nums[j] = temp;
+                }
+                j = (j - 1) % length;
+            } while (j != front);
+
+            i = (i + 1) % length;
+        } while (i != rear);
     }
 
     public void print() {
