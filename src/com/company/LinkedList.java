@@ -1,6 +1,8 @@
 package com.company;
 
-public class LinkedList<T> {
+import java.util.NoSuchElementException;
+
+public class LinkedList<T extends Comparable> {
     private Node head;
     private Node tail;
     private int length;
@@ -42,6 +44,17 @@ public class LinkedList<T> {
             head.print();
         }
     }
+
+    public Node getFirst() {
+        if(head.getValue() == null){
+            throw new NoSuchElementException();
+        }
+
+        return head;
+    }
+
+
+
     public class  Node<T> {
         private T data;
         private Node left;
@@ -67,6 +80,12 @@ public class LinkedList<T> {
             this.left = node;
         }
 
+        public T getValue() {
+            if(data == null) {
+                throw new NoSuchElementException();
+            }
+            return (T)data;
+        }
         public void print() {
             System.out.println(data);
             if(right != null){
